@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- to get html to pop up do ! then enter. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  </head>
+  <body class="w3-sand">
+    <div class="w3-container w3-center">
+      <h1>Bob's Auto Parts</h1>
+      <h2>Order Form</h2>
+    </div>
+    <form action="ProcessOrder.php" method="POST">
+      <!-- GET means public, meaning everyone can see it. POST is private -->
+      <table class="w3-table w3-table-all">
+        <tr class="w3-blue-gray">
+          <th>Item</th>
+          <th>Quantity</th>
+        </tr>
+
+        <!-- Row #1 -->
+        <tr>
+          <td>Tires</td>
+          <td>
+            <input type="text" name="tireqty" size="3" maxlength="3" />
+          </td>
+        </tr>
+
+        <!-- Row #2 -->
+        <tr>
+          <td>Oil</td>
+          <td>
+            <input type="text" name="oilqty" size="3" maxlength="3" />
+          </td>
+        </tr>
+
+        <!-- Row #3 -->
+        <tr>
+          <td>Spark Plugs</td>
+          <td>
+            <input type="text" name="sparkqty" size="3" maxlength="3" />
+          </td>
+        </tr>
+
+        <tr>
+          <td>How did you find out about Bob's?</td>
+          <td>
+            <select name="find">
+              <!-- id is use to work with html. name is use to work with php -->
+              <option value="0">I'm a regular customer</option>
+              <option value="1">TV advertising</option>
+              <option value="2">Phone directory</option>
+              <option value="3">Word of mouth</option>
+              <option value="4">Social Media</option>
+              <option value="5">Search Engine</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+      <input type="submit" value="Submit Order" />
+    </form>
+  </body>
+</html>
