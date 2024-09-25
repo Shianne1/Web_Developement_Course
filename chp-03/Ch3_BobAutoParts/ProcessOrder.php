@@ -44,7 +44,7 @@ $date = date('m/d/y h:i:s');
 
             echo "Total amount: $".number_format($totalAmount, 2)."<br>";
 
-            $outputStr = "$date;$tireqty;$oilqty;$sparkqty.$address\n";
+            $outputStr = "$date;$tireqty;$oilqty;$sparkqty;$totalAmount;$address\n";
             $myPath = "orders/";
             @$fp = fopen($myPath."orders.txt", 'ab');
 
