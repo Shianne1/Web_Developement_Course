@@ -33,7 +33,7 @@
             </tr>
             <tr>
                 <td>Address</td>
-                <td><input type="text" name = "address" size="50" maxlength="50"></td>
+                <td><input type="text" name = "address" size="100" maxlength="100"></td>
             </tr>
         </table>
         <input type="submit" value="Submit order"/>
