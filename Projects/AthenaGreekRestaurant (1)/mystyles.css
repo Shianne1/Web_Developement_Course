@@ -1,0 +1,13 @@
+.athenaTitle {
+  font-family: Verdana;
+  font-size: 1.7rem !important; /*important tells css that no matter what happens, you have to use this first*/
+}
+
+.small_caps {
+  font-variant: small-caps;
+}
+
+.description {
+  text-transform: none !important;
+  font-family: Verdana;
+}
