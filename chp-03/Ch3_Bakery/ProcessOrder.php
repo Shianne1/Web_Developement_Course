@@ -63,7 +63,7 @@ $date = date('d/m/Y h:i:s');
         $outputstring = "$date;$productName;$quantity;$totalAmount\n";
 
         // open file for appending
-        @$fp = fopen("orders.text", "ab");
+        @$fp = fopen("orders.txt", "ab");
                if(!$fp){
                 echo "Your order cannot be proccessed at this time. Please try again later...<br>";
                 exit;
