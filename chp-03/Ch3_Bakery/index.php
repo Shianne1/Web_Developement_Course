@@ -1,7 +1,7 @@
 <?php 
 $productsArray = [
     0 => ['Apple Pie', 12.5], 
-    1 => ['Cheesecake', 5.50],
+    1 => ['Cheesecake', 5.5],
     2 => ['Croissant', 2.5],
     3 => ['Doughnut', 0.5],
     4 => ['Pastel de Nata', 4]];
@@ -32,7 +32,7 @@ $productsArray = [
         <img src="Croissant_PNG_Clip_Art-2216.png" width = "10%" height = "10%" class="w3-display-topright">
     </div>
     <?phP include "menu.php"; ?>
-    <form action = "ProcessOrder.php" mthod = "POST">
+    <form action = "ProcessOrder.php" method = "POST">
         <label>Select Product</label>
         <select name = "product" class = "w3-select">
             <?php 
