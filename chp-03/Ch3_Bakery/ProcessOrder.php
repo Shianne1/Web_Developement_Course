@@ -45,7 +45,7 @@ $date = date('d/m/Y h:i:s');
     <div class="w3-container w3-light-gray">
         <?php 
         if($quantity <= 0){
-            echo "You did not order anythign on the previous page!<br>";
+            echo "You did not order anything on the previous page!<br>";
             //echo "Please go back and try again <br>"
             exit;
         }
