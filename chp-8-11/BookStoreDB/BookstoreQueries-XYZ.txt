@@ -1,0 +1,14 @@
+1. Select all books whose title contains "data" (case insensitive)
+SELECT * 
+FROM book 
+WHERE title 
+LIKE '%data%';
+
+2. Select all books with authors sorted by authors last names
+
+
+3. Select all customer orders
+
+
+4. Select all books with no orders
+
