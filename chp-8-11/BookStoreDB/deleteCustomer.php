@@ -21,12 +21,15 @@
                 <label>Customer</label>
                 <select name="customer" class = "w3-select">
                     <option value = "" disabled slected>Choose customer</option>
-                    <?php include "connectDatabase.php";
+                    <?php 
+                    include "connectDatabase.php";
                     
                     //select customers who do not have orders
+
+                    // need to have a space between them because they are being concated together for the query
                     $sql = "SELECT c.customer_id, c.firstName, c.lastName ";
-                    $sql .= "FROM customer c LEFT JOIN orders o";
-                    $sql .= "on c.customer_id = o.customer_id";
+                    $sql .= "FROM customer c LEFT JOIN orders o ";
+                    $sql .= "on c.customer_id = o.customer_id ";
                     $sql .= "WHERE o.order_id IS NULL ";
 
                     $result = $conn->query($sql);
@@ -37,14 +40,14 @@
                             $customerFirstName = $row['firstName'];
                             $customerLastName = $row['lastName'];
 
-                            echo "option value = '$customerId'>$customerId-$customerLastName, $customerFirstName</option>";                        
+                            echo "<option value = '$customerId'>$customerId-$customerLastName, $customerFirstName</option>";                        
                         }
                         $conn->close();
                     }
                     ?>
 
                 </select><br>
-                <b>NOTE</b>: only customerswith not orders can be deleted           
+                <b>NOTE</b>: only customers with not orders can be deleted           
 </fieldset>
 <br><input type="submit" name="submit" class="w3-btn w3-blue-grey" value = "Delete customer"><br>
         </form>
@@ -63,9 +66,9 @@
 
         include "connectDatabase.php";
 
-        $sql = "DELETE";
-        $sql .= "FROM customer";
-        $sql .= "WHERE customer_id = '$customer_id'";
+        $sql = "DELETE ";
+        $sql .= "FROM customer ";
+        $sql .= "WHERE customer_id = '$customer_id' ";
 
         if($conn->query($sql) === TRUE){
             echo "Customer record for customer_id = $customer_id successfully deleted!<br>";
