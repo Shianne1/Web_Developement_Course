@@ -70,7 +70,7 @@
                             $result = $conn->query($sql);
 
                             if($result->num_rows > 0){
-                                while($row = result->fetech_assoc()){
+                                while($row = result-> fetech_assoc()){
                                     $bookId = $row['book_id'];
                                     $title = $row['title'];
                                     $isbn = $row['ISBN'];
