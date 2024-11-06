@@ -49,7 +49,7 @@
                 </select><br>
                 <b>NOTE</b>: only customers with not orders can be deleted           
 </fieldset>
-<br><input type="submit" name="submit" class="w3-btn w3-blue-grey" value = "Delete customer"><br>
+<p><input type="submit" name="submit" class="w3-btn w3-blue-grey" value = "Delete customer"></p>
         </form>
 
         <!-- WORK NOT DONE -->
