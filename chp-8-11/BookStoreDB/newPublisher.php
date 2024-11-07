@@ -35,7 +35,7 @@
 <div class="w3-container w3-sand">
     <?php 
     if(isset($_POST['submit'])){
-        if(!isset($_POST['fName']) || 
+        if(!isset($_POST['name']) || 
         !isset($_POST['email']) || 
         !isset($_POST['phoneNumber']) 
         ) {
