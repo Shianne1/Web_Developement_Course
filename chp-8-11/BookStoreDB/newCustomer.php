@@ -56,8 +56,9 @@
         !isset($_POST['phoneNumber']) || 
         !isset($_POST['address']) || 
         !isset($_POST['city']) || 
-        !isset($_POST['state']) ||
-        !isset($_POST['zip'])) {
+        !isset($_POST['state']) || 
+        !isset($_POST['zip']) 
+        ) {
             echo "<p>You have not entered all the required details.<br/>
             Please go back and try again.</p>";
             exit;

@@ -31,7 +31,7 @@
         <button class="w3-button w3-black">Publisher</button>
         <div class="w3-dropdown-content w3-bar-block w3-border">
             <a href="newPublisher.php" class="w3-bar-item w3-button">Add</a>
-            <a href="showPublisher.php" class="w3-bar-item w3-button">View All</a>
+            <a href="showPublishers.php" class="w3-bar-item w3-button">View All</a>
         </div>
     </div>
 
