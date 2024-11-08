@@ -22,7 +22,7 @@
             <fieldset>
                 <label>Customer</label>
                 <select class = "w3-select" name = "customer" id = "customer">
-                    <option value"" disabled selected>Choose customer</option>
+                    <option value="" disabled selected>Choose customer</option>
                     <?php 
                     include 'connectDatabase.php';
 
@@ -70,7 +70,7 @@
                             $result = $conn->query($sql);
 
                             if($result->num_rows > 0){
-                                while($row = result-> fetech_assoc()){
+                                while($row = $result-> fetch_assoc()){
                                     $bookId = $row['book_id'];
                                     $title = $row['title'];
                                     $isbn = $row['ISBN'];
@@ -81,7 +81,7 @@
                             }
                             $conn->close();
                         ?>
-                    </seleect>
+                    </select>
                     <label>Quantity</label>
                     <input class="w3-input w3-border" type="number" id="quantity" maxlength="30" size="30"/>
 
@@ -114,7 +114,7 @@
 
             </fieldset>
 
-            <p><input type="submit" value="Add New Order" class="w3-btn w3-blue-grey"></p>
+            <p><input type="submit" name = "submit" value="Add New Order" class="w3-btn w3-blue-grey"></p>
 
         </form>
 
