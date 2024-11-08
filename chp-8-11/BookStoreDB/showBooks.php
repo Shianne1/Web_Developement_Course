@@ -21,8 +21,10 @@
         include "connectDatabase.php";
 
         $sql = "SELECT b.book_id, b.title, a.firstName, a.lastName, b.price, p.name ";
-        $sql .= "FROM book b, publisher p, author a, book_author ba ";
-        $sql .= "WHERE ba.author_id = a.author_id AND b.publisher_id = p.publisher_id";
+        $sql .= "FROM book b ";
+        $sql .= "JOIN publisher p ON b.publisher_id = p.publisher_id 
+                    JOIN book_author ba ON b.book_id = ba.book_id
+                    JOIN author a ON ba.author_id = a.author_id ";
 
         $result = $conn->query($sql);
 
@@ -37,16 +39,13 @@
             echo "  </tr>";
 
             while($row = $result->fetch_assoc()) {
+            $authorName = $row['firstName'] . " " . $row['lastName'];
             echo "  <tr>";
-            echo "      <td>".$row['customer_id']."</td>";
-            echo "      <td>".$row['firstName']."</td>";
-            echo "      <td>".$row['lastName']."</td>";
-            echo "      <td>".$row['email']."</td>";
-            echo "      <td>".$row['phoneNumber']."</td>";
-            echo "      <td>".$row['address']."</td>";
-            echo "      <td>".$row['city']."</td>";
-            echo "      <td>".$row['state']."</td>";
-            echo "      <td>".$row['zip']."</td>";
+            echo "      <td>".$row['book_id']."</td>";
+            echo "      <td>".$row['title']."</td>";
+            echo "      <td>".$authorName."</td>";
+            echo "      <td>".$row['price']."</td>";
+            echo "      <td>".$row['name']."</td>";
             echo "  </tr>";
             }
 
