@@ -20,11 +20,9 @@
             <fieldset>
                 <label>Author</label>
                 <select name="author" class = "w3-select">
-                    <option value = "" disabled selected>Choose author</option>
+                    <option value = "" disabled selected>Choose Author</option>
                     <?php 
                     include "connectDatabase.php";
-                    
-                    //select customers who do not have orders
 
                     // need to have a space between them because they are being concated together for the query
                     $sql = "SELECT *";
