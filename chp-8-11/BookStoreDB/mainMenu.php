@@ -21,7 +21,7 @@
         <button class="w3-button w3-black">Author</button>
         <div class="w3-dropdown-content w3-bar-block w3-border">
             <a href="newAuthor.php" class="w3-bar-item w3-button">Add</a>
-            <a href="showAuthorsWithBooks.php" class="w3-bar-item w3-button">View Authors with books</a>
+            <a href="showAuthorsWithBook.php" class="w3-bar-item w3-button">View Authors with books</a>
             <a href="showAuthors.php" class="w3-bar-item w3-button">View All Authors</a>
             <a href="deleteAuthor.php" class="w3-bar-item w3-button">Delete</a>
         </div>
