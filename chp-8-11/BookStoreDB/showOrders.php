@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookStore - View Customers</title>
+    <title>BookStore - View All Orders</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href='styles.css'>
 </head>
@@ -12,7 +12,7 @@
     <div class="w3-container w3-blue-grey">
         <header class="w3-container w3-center">
             <h1>Bookstore</h1>
-            <h2>View All Books</h2>
+            <h2>View All Orders</h2>
         </header>
         <?php include 'mainMenu.php' ?>
 
@@ -20,7 +20,7 @@
     <?php 
         include "connectDatabase.php";
 
-        $sql = "SELECT o.order_id, o.orderDate, c.lastName, c.firstName, b.title, bo.quantity, b.price, o.shipCost ";
+        $sql = "SELECT o.order_id, o.orderDate, c.lastName, c.firstName, b.title, bo.quantity, b.price, (bo.quantity * b.price) AS total, o.shipCost ";
         $sql .= "FROM orders o ";
         $sql .= "JOIN customer c ON o.customer_id = c.customer_id 
                     JOIN book_order bo ON o.order_id = bo.order_id
@@ -49,7 +49,7 @@
             echo "      <td>".$row['firstName']."</td>";
             echo "      <td>".$row['title']."</td>";
             echo "      <td>".$row['quantity']."</td>";
-            echo "      <td>".$row['price']."</td>";
+            echo "      <td>".$row['total']."</td>";
             echo "      <td>".$row['shipCost']."</td>";
             echo "  </tr>";
             }

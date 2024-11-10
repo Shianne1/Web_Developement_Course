@@ -70,7 +70,7 @@
                             $result = $conn->query($sql);
 
                             if($result->num_rows > 0){
-                                while($row = $result-> fetch_assoc()){
+                                while($row = $result->fetch_assoc()){
                                     $bookId = $row['book_id'];
                                     $title = $row['title'];
                                     $isbn = $row['ISBN'];
@@ -129,7 +129,7 @@
                 !isset($_POST['state']) ||
                 !isset($_POST['zip']) ||
                 !isset($_POST['cost']) ||
-                !isset($_POST['bookSel'])) {
+                !isset($_POST['booksSel'])) {
                 
                 echo "<p>You have not entered all the required details.<br/> Please go back and try again.</p>";
                 exit;
@@ -140,33 +140,33 @@
 
             //create short variable names
             $customer = $_POST['customer'];
-            $orderDate = mysqlie_real_escape_string($conn, $_POST['orderDate']);
-            $shipDate = mysqlie_real_escape_string($conn, $_POST['shipDate']);
-            $street = mysqlie_real_escape_string($conn, $_POST['street']);
-            $city = mysqlie_real_escape_string($conn, $_POST['city']);
-            $state = mysqlie_real_escape_string($conn, $_POST['state']);
-            $zip = mysqlie_real_escape_string($conn, $_POST['zip']);
-            $cost = mysqlie_real_escape_string($conn, $_POST['cost']);
+            $orderDate = mysqli_real_escape_string($conn, $_POST['orderDate']);
+            $shipDate = mysqli_real_escape_string($conn, $_POST['shipDate']);
+            $street = mysqli_real_escape_string($conn, $_POST['street']);
+            $city = mysqli_real_escape_string($conn, $_POST['city']);
+            $state = mysqli_real_escape_string($conn, $_POST['state']);
+            $zip = mysqli_real_escape_string($conn, $_POST['zip']);
+            $cost = mysqli_real_escape_string($conn, $_POST['cost']);
             $booksSel = $_POST['booksSel'];
             $booksSelArray = explode("|", $booksSel);
 
-            echo "[debug] bookssSel = $booksSel<br>";
-            $sql = "INSERT INTO orders(customer_id, orderDate, shipDate, shipStreet, shipCity, shipState, shipZip, shipCost)";
+            echo "[debug] booksSel = $booksSel<br>";
+            $sql = "INSERT INTO orders(customer_id, orderDate, shipDate, shipStreet, shipCity, shipState, shipZip, shipCost) ";
             $sql .= "VALUES ('$customer', '$orderDate', '$shipDate', '$street', '$city', '$state', '$zip', '$cost')";
 
             if($conn->query($sql) === TRUE) {
                 $order_id = $conn->insert_id;
                 echo "<b>New order created successfully!</b><br>";
                 echo "Order ID: $order_id<br>";
-                echo "Customer ID: $customer_id<br>";
+                echo "Customer ID: $customer<br>";
                 echo "Order Date: ".htc($orderDate)."<br>";
-                echo "Shipping Date:" .htc($shipDate)."<br>";
-                echo "Shipping Cost:" .htc($cost)."<br>";
+                echo "Shipping Date:  " .htc($shipDate)."<br>";
+                echo "Shipping Cost: " .htc($cost)."<br>";
                 echo "---------------| <b>Address</b> |---------------<br>";
                 echo "Street: ".htc($street)."<br>";
-                echo "City:" .htc($city)."<br>";
-                echo "State:" .htc($state)."<br>";
-                echo "Zip:" .htc($zip)."<br>";
+                echo "City: " .htc($city)."<br>";
+                echo "State: " .htc($state)."<br>";
+                echo "Zip: " .htc($zip)."<br>";
 
                 // - Create a new record in the book_order table
                 // - For each book item selected
@@ -178,6 +178,7 @@
                     // make sure item is not empty
                     if(strlen($booksSelArray[$i]) < 2){
                         continue;
+                    }
                         $curBookItemArray = explode(";", $booksSelArray[$i]);
 
                         $curBookId = $curBookItemArray[0];
@@ -199,11 +200,11 @@
                         if($conn->query($sql) === TRUE){
                             echo "book_id: $curBookId added successfully<br>";
                         } else {
-                            echo "Error: " .sql . "<br>" .$conn->error;
+                            echo "Error: " . $sql . "<br>" .  $conn->error;
                         }
                         echo "-----------------------------------<br>";
 
-                    }
+                    
                 }
             }
             else {
@@ -220,7 +221,7 @@
             var selCustomer = document.getElementById('customer');
             var selCustomerIndex = selCustomer.selectedIndex;
             var selCustomerInnerHTML = selCustomer[selCustomerIndex].innerHtml;
-            var fullAddressStr = selCustomerInnerHtml.split("|")[2];
+            var fullAddressStr = selCustomerInnerHTML.split("|")[2];
             var fullAddressArray = fullAddressStr.split(';');
             var address = fullAddressArray[0];
             var city = fullAddressArray[1];
@@ -247,13 +248,13 @@
 
             //make sure there are items to add
             if(listAv.options.length < 1){
-                reutrn;
+                return;
             }
             if(qty.value == ""){
                 qty.value = 1;
             }
 
-            var listAvIndex = listAv.slectedIndex;
+            var listAvIndex = listAv.selectedIndex;
             var listAvInner = listAv[listAvIndex].innerHTML;
             var listAvVal = listAv[listAvIndex].value;
 
@@ -282,16 +283,13 @@
             var booksSel = document.getElementById('booksSel');
 
             //make sure there are items to add
-            if(listAv.options.length < 1){
-                reutrn;
+            if(listSel.options.length < 1){
+                return;
             }
-            if(qty.value == ""){
-                qty.value = 1;
-            }
-
-            var listAvIndex = listAv.slectedIndex;
-            var listAvInner = listAv[listAvIndex].innerHTML;
-            var listAvVal = listAv[listAvIndex].value;
+           
+            var listSelIndex = listSel.selectedIndex;
+            var listSelInner = listSel[listSelIndex].innerHTML;
+            var listSelVal = listSel[listSelIndex].value;
 
             //remove quantity
             var lastSeparatorIndex = listSelInner.lastIndexOf("|");

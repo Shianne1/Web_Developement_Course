@@ -47,8 +47,6 @@
 <p><input type="submit" name="submit" class="w3-btn w3-blue-grey" value = "Delete author"></p>
         </form>
 
-        <!-- WORK NOT DONE -->
-
 <div class="w3-container">
     <?php 
         if(isset($_POST['submit'])){
@@ -75,7 +73,7 @@
         $sql .= "WHERE author_id = '$author_id'";
 
         if($conn->query($sql) === TRUE){
-            echo "Book_author record(s) for author_id = $author_id successfully deleted!<br>";
+            echo "Author for author_id = $author_id successfully deleted!<br>";
         } else {
             echo "Error: " .$sql . "<br>" .$conn->error;
         }

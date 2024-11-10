@@ -29,7 +29,7 @@
             <input type="text" class="w3-input w3-border" name="price" maxlength="200" size="200">
 
             <label>Publication Date</label>
-            <input type="text" class="w3-input w3-border" name="publication" maxlength="200" size="200">
+            <input type="date" class="w3-input w3-border" name="publication" maxlength="200" size="200">
 
             <label>Publisher</label>
                 <select name="publisher" class = "w3-select">
@@ -69,29 +69,31 @@
                     //select customers who do not have orders
 
                     // need to have a space between them because they are being concated together for the query
-                    $sql = "SELECT publisher_id, name, email, phoneNumber ";
-                    $sql .= "FROM publisher ";
+                    $sql = "SELECT a.author_id, a.firstName, a.lastName, COUNT(ba.bookAuthor_id) as totalbooks ";
+                    $sql .= "FROM author a ";
+                    $sql .= "JOIN book_author ba ON ba.author_id = a.author_id ";
+                    $sql .= "GROUP BY a.lastName";
                  
 
                     $result = $conn->query($sql);
 
                     if($result->num_rows > 0){
                         while($row = $result->fetch_assoc()){
-                            $publisherId = $row['publisher_id'];
-                            $publisherName = $row['name'];
-                            $publisherEmail = $row['email'];
+                            $authorId = $row['author_id'];
+                            $authorLastName = $row['lastName'];
+                            $authorFirstName = $row['firstName'];
 
-                            echo "<option value = '$publisherId'>$publisherId-$publisherName</option>";                        
+                            echo "<option value = '$authorId'>$authorId-$authorLastName, $authorFirstName</option>";                        
                         }
                         $conn->close();
                     }
                     ?>
 
                 </select><br>
-
+                <input class="w3-button w3-teal w3-round-large" value="Remove Author" onclick="removeAuthor()">  <br>
 
                 <label>Available Author(s)</label>
-                <select name="author" class = "w3-select">
+                <select name="author" class = "w3-select" id="authorAV">
                     <option value = "" disabled selected>Choose author</option>
                     <?php 
                     include "connectDatabase.php";
@@ -118,10 +120,11 @@
                     ?>
 
                 </select><br>
+                <input class="w3-button w3-teal w3-round-large" value="Add author" onclick="addAuthor()">  <br>
 
         </fieldset>
 
-       <p><input type="submit" class="w3-btn w3-blue-grey" name = "submit" value="Add New Customer"></p>
+       <p><input type="submit" class="w3-btn w3-blue-grey" name = "submit" value="Add New Book"></p>
 </form>
 <div class="w3-container w3-sand">
     <?php 
@@ -181,5 +184,87 @@
     ?>
         </div>
     </div>
+
+    <script>
+
+        function addAuthor(){
+            var listSel = document.getElementById('listBooksSel');
+            var listAv = document.getElementById('listBooksAv');
+            var booksSel = document.getElementById('booksSel');
+            var qty = document.getElementById('quantity');
+
+            //make sure there are items to add
+            if(listAv.options.length < 1){
+                return;
+            }
+            if(qty.value == ""){
+                qty.value = 1;
+            }
+
+            var listAvIndex = listAv.selectedIndex;
+            var listAvInner = listAv[listAvIndex].innerHTML;
+            var listAvVal = listAv[listAvIndex].value;
+
+            listSel.options[listSel.options.length] = new Option(listAvInner+"|"+qty.value, listAvVal);
+
+            listAv[listAvIndex] = null;
+
+            sortSelect(listSel);
+
+            //Add book id, quantity and price
+            result="";
+            for(i = 0; i < listSel.options.length; i++){
+                optArray = listSel.options[i].innerHTML.split("|");
+                price = optArray[3];
+                quantity = optArray[4];
+
+                result += listSel.options[i].value + ";" + price + ";" + quantity + "|";
+            }
+
+            booksSel.value = result;
+        }
+
+        function removeAuthor(){
+            var listSel = document.getElementById('listBooksSel');
+            var listAv = document.getElementById('listBooksAv');
+            var booksSel = document.getElementById('booksSel');
+
+            //make sure there are items to add
+            if(listSel.options.length < 1){
+                return;
+            }
+           
+            var listSelIndex = listSel.selectedIndex;
+            var listSelInner = listSel[listSelIndex].innerHTML;
+            var listSelVal = listSel[listSelIndex].value;
+
+            //remove quantity
+            var lastSeparatorIndex = listSelInner.lastIndexOf("|");
+            listSelInner = listSelInner.slice(0, lastSeparatorIndex);
+
+            listAv.options[listAv.options.length] = new Option(listSelInner, listSelVal);
+
+            listSel[listSelIndex] = null;
+
+            sortSelect(listAv);
+
+            result = "";
+            selArray = booksSel.value.split('|');
+            for(i = 0; i < selArray.length; i++){
+                curBookArray = selArray[i].split(';');
+
+                if(curBookArray[0] != listSelVal){
+                    result += selArray[i] + "|";
+                }
+            }
+
+            //delete extra | at the end if necessary
+            if(result.slice(-2,-1) == '|'){
+                result = result.substr(0, result.length - 2);
+            }
+
+        booksSel.value = result;
+        }
+    </script>
 </body>
 </html>
