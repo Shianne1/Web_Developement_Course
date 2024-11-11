@@ -27,28 +27,28 @@ setcookie("favTeam", "Atlanta Falcons", time() + 60, "/"); // 1 mintue
         if(!isset($_COOKIE['favColor'])){
             echo "Cookie name favColor is not set!<br>";
         } else {
-            "Cookie favColor is set!<br>";
+            echo "Cookie favColor is set!<br>";
             echo "Value is: ".$_COOKIE['favColor']."<br><br>";
         }
 
         if(!isset($_COOKIE['favAnimal'])){
             echo "Cookie name favAnimal is not set!<br>";
         } else {
-            "Cookie favAnimal is set!<br>";
+            echo "Cookie favAnimal is set!<br>";
             echo "Value is: ".$_COOKIE['favAnimal']."<br><br>";
         }
 
         if(!isset($_COOKIE['favSchool'])){
             echo "Cookie name favSchool is not set!<br>";
         } else {
-            "Cookie favSchool is set!<br>";
+            echo "Cookie favSchool is set!<br>";
             echo "Value is: ".$_COOKIE['favSchool']."<br><br>";
         }
 
         if(!isset($_COOKIE['favTeam'])){
             echo "Cookie name favTeam is not set!<br>";
         } else {
-            "Cookie favTeam is set!<br>";
+            echo "Cookie favTeam is set!<br>";
             echo "Value is: ".$_COOKIE['favTeam']."<br><br>";
         }
         ?>
