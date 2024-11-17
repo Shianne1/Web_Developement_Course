@@ -188,9 +188,9 @@
         }
 
         function removeAuthor(){
-            var listSel = document.getElementById('listBooksSel');
-            var listAv = document.getElementById('listBooksAv');
-            var booksSel = document.getElementById('booksSel');
+            var listSel = document.getElementById('listAuthorsSel');
+            var listAuthorAv = document.getElementById('authorAv');
+            var authorsSel = document.getElementById('authorsSel');
 
             //make sure there are items to add
             if(listSel.options.length < 1){
@@ -205,18 +205,18 @@
             var lastSeparatorIndex = listSelInner.lastIndexOf("|");
             listSelInner = listSelInner.slice(0, lastSeparatorIndex);
 
-            listAv.options[listAv.options.length] = new Option(listSelInner, listSelVal);
+            listAuthorAv.options[listAuthorAv.options.length] = new Option(listSelInner, listSelVal);
 
             listSel[listSelIndex] = null;
 
-            sortSelect(listAv);
+            sortSelect(listAuthorAv);
 
             result = "";
-            selArray = booksSel.value.split('|');
+            selArray = authorsSel.value.split('|');
             for(i = 0; i < selArray.length; i++){
-                curBookArray = selArray[i].split(';');
+                curAuthorArray = selArray[i].split(';');
 
-                if(curBookArray[0] != listSelVal){
+                if(curAuthorArray[0] != listSelVal){
                     result += selArray[i] + "|";
                 }
             }
@@ -226,7 +226,7 @@
                 result = result.substr(0, result.length - 2);
             }
 
-        booksSel.value = result;
+        authorsSel.value = result;
         }
     </script>
 </body>
