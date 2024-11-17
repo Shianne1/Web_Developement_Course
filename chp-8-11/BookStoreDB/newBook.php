@@ -61,39 +61,14 @@
                 </select><br>
 
                 <label>Book Author(s)</label>
-                <select name="publisher" class = "w3-select">
-                    <option value = "" disabled selected></option>
-                    <?php 
-                    include "connectDatabase.php";
-                    
-                    //select customers who do not have orders
-
-                    // need to have a space between them because they are being concated together for the query
-                    $sql = "SELECT a.author_id, a.firstName, a.lastName, COUNT(ba.bookAuthor_id) as totalbooks ";
-                    $sql .= "FROM author a ";
-                    $sql .= "JOIN book_author ba ON ba.author_id = a.author_id ";
-                    $sql .= "GROUP BY a.lastName";
+                <input name = "authorsSel" id="authorsSel" value="None" type="hidden">
+                 <select class="w3-select" name="listAuthorsSel" id="listAuthorsSel"></select>
                  
+                 <input value="Remove author" class="w3-button w3-teal w3-round-large" onclick='removeAuthor()'><br>    <br>
 
-                    $result = $conn->query($sql);
-
-                    if($result->num_rows > 0){
-                        while($row = $result->fetch_assoc()){
-                            $authorId = $row['author_id'];
-                            $authorLastName = $row['lastName'];
-                            $authorFirstName = $row['firstName'];
-
-                            echo "<option value = '$authorId'>$authorId-$authorLastName, $authorFirstName</option>";                        
-                        }
-                        $conn->close();
-                    }
-                    ?>
-
-                </select><br>
-                <input class="w3-button w3-teal w3-round-large" value="Remove Author" onclick="removeAuthor()">  <br>
 
                 <label>Available Author(s)</label>
-                <select name="author" class = "w3-select" id="authorAV">
+                <select name="author" class = "w3-select" id="authorAv">
                     <option value = "" disabled selected>Choose author</option>
                     <?php 
                     include "connectDatabase.php";
@@ -129,14 +104,12 @@
 <div class="w3-container w3-sand">
     <?php 
     if(isset($_POST['submit'])){
-        if(!isset($_POST['fName']) || 
-        !isset($_POST['lName']) || 
-        !isset($_POST['email']) || 
-        !isset($_POST['phoneNumber']) || 
-        !isset($_POST['address']) || 
-        !isset($_POST['city']) || 
-        !isset($_POST['state']) || 
-        !isset($_POST['zip']) 
+        if(!isset($_POST['title']) || 
+        !isset($_POST['isbn']) || 
+        !isset($_POST['price']) || 
+        !isset($_POST['publication']) || 
+        !isset($_POST['publisher']) || 
+        !isset($_POST['authorsSel']) 
         ) {
             echo "<p>You have not entered all the required details.<br/>
             Please go back and try again.</p>";
@@ -147,34 +120,30 @@
     include "connectDatabase.php";
 
     # create short variable names
-    $fName = mysqli_real_escape_string($conn, $_POST['fName']);
-    $lName = mysqli_real_escape_string($conn, $_POST['lName']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $phoneNumber = mysqli_real_escape_string($conn, $_POST['phoneNumber']);
-    $address = mysqli_real_escape_string($conn, $_POST['address']);
-    $city = mysqli_real_escape_string($conn, $_POST['city']);
-    $state = mysqli_real_escape_string($conn, $_POST['state']);
-    $zip = mysqli_real_escape_string($conn, $_POST['zip']);
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $isbn = mysqli_real_escape_string($conn, $_POST['isbn']);
+    $price = mysqli_real_escape_string($conn, $_POST['price']);
+    $publication= mysqli_real_escape_string($conn, $_POST['publication']);
+    $publisher = mysqli_real_escape_string($conn, $_POST['publisher']);
+    $authorsSel = mysqli_real_escape_string($conn, $_POST['authorsSel']);
+    
 
-    $sql = "INSERT INTO customer (firstName, lastName, email, phoneNumber, address, city, state, zip)
-    VALUES ('$fName', '$lName', '$email', '$phoneNumber', '$address', '$city', '$state', '$zip')";
+    echo "[debug] authorsSel = $authorsSel<br>";
+    $sql = "INSERT INTO book (ISBN, title, publicationDate, publisher_id, price)
+    VALUES ('$isbn', '$title', '$publication', '$publisher', '$price')";
     
 
     if($conn->query($sql) === TRUE){
-        $customer_id = $conn->insert_id;
-        echo "<strong>Customer created sucessfully!</strong><br>";
-        echo "Customer id: $customer_id<br>";
-        echo "First name: $fName<br>";
-        echo "Last name: $lName<br>";
-        echo "Phone Number: $phoneNumber<br>";
-        echo "Email: $email<br>";
-        echo "Address: $address<br>";
-        echo "City: $city<br>";
-        echo "State: $state<br>";
-        echo "Zip: $zip<br>";
-    }
-    else{
-        echo "Error: Unable to create new customer. ".$conn->error."<br>";
+        $book_id = $conn->insert_id;
+        echo "<strong>Book created sucessfully!</strong><br>";
+        echo "ISBN: $isbn<br>";
+        echo "Title: $title<br>";
+        echo "Publication: $publication<br>";
+        echo "Publisher: $publisher<br>";
+        echo "Price: $price<br>";
+
+    }else{
+        echo "Error: Unable to create new book. ".$conn->error."<br>";
         echo $sql;
     }
 
@@ -188,26 +157,22 @@
     <script>
 
         function addAuthor(){
-            var listSel = document.getElementById('listBooksSel');
-            var listAv = document.getElementById('listBooksAv');
-            var booksSel = document.getElementById('booksSel');
-            var qty = document.getElementById('quantity');
+            var listSel = document.getElementById('listAuthorsSel');
+            var listAuthorAv = document.getElementById('authorAv');
+            var authorsSel = document.getElementById('authorsSel');
 
             //make sure there are items to add
-            if(listAv.options.length < 1){
+            if(listAuthorAv.options.length < 1){
                 return;
             }
-            if(qty.value == ""){
-                qty.value = 1;
-            }
 
-            var listAvIndex = listAv.selectedIndex;
-            var listAvInner = listAv[listAvIndex].innerHTML;
-            var listAvVal = listAv[listAvIndex].value;
+            var listAuthorAvIndex = listAuthorAv.selectedIndex;
+            var listAuthorAvInner = listAuthorAv[listAuthorAvIndex].innerHTML;
+            var listAuthorAvVal = listAuthorAv[listAuthorAvIndex].value;
 
-            listSel.options[listSel.options.length] = new Option(listAvInner+"|"+qty.value, listAvVal);
+            listSel.options[listSel.options.length] = new Option(listAuthorAvInner, listAuthorAvVal);
 
-            listAv[listAvIndex] = null;
+            listAuthorAv[listAuthorAvIndex] = null;
 
             sortSelect(listSel);
 
@@ -215,13 +180,11 @@
             result="";
             for(i = 0; i < listSel.options.length; i++){
                 optArray = listSel.options[i].innerHTML.split("|");
-                price = optArray[3];
-                quantity = optArray[4];
-
-                result += listSel.options[i].value + ";" + price + ";" + quantity + "|";
+        
+                result += listSel.options[i].value;
             }
 
-            booksSel.value = result;
+            authorsSel.value = result;
         }
 
         function removeAuthor(){
