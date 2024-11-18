@@ -70,7 +70,7 @@
         }
 
         $sql = "DELETE ";
-        $sql .= "FROM book_author ";
+        $sql .= "FROM book ";
         $sql .= "WHERE book_id = '$book_id'";
 
         if($conn->query($sql) === TRUE){
