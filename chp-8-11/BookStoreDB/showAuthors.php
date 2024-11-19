@@ -20,9 +20,9 @@
     <?php 
         include "connectDatabase.php";
 
-        $sql = "SELECT * ";
+        $sql = "SELECT DISTINCT* ";
         $sql .= "FROM author ";
-        $sql .= "ORDER BY firstName, lastName ";
+        $sql .= "ORDER BY lastName ";
 
         $result = $conn->query($sql);
 

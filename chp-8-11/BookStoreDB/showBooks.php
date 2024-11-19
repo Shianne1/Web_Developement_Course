@@ -20,11 +20,14 @@
     <?php 
         include "connectDatabase.php";
 
+        
         $sql = "SELECT b.book_id, b.title, a.firstName, a.lastName, b.price, p.name ";
         $sql .= "FROM book b ";
-        $sql .= "JOIN publisher p ON b.publisher_id = p.publisher_id 
-                    JOIN book_author ba ON b.book_id = ba.book_id
-                    JOIN author a ON ba.author_id = a.author_id ";
+        $sql .= "LEFT JOIN publisher p ON b.publisher_id = p.publisher_id 
+                    LEFT JOIN book_author ba ON b.book_id = ba.book_id
+                    LEFT JOIN author a ON ba.author_id = a.author_id ";
+        $sql .= "ORDER BY b.book_id ";
+        
 
         $result = $conn->query($sql);
 

@@ -77,7 +77,7 @@
 
                     // need to have a space between them because they are being concated together for the query
                     $sql = "SELECT * ";
-                    $sql .= "FROM author ";
+                    $sql .= "FROM author";
                  
 
                     $result = $conn->query($sql);
@@ -88,7 +88,7 @@
                             $authorLastName = $row['lastName'];
                             $authorFirstName = $row['firstName'];
 
-                            echo "<option value = '$authorId'>$authorId-$authorLastName, $authorFirstName</option>";                        
+                            echo "<option value = '$authorId' id='author-$authorId'>$authorId-$authorLastName-$authorFirstName</option>";                        
                         }
                         $conn->close();
                     }
@@ -125,7 +125,9 @@
     $price = mysqli_real_escape_string($conn, $_POST['price']);
     $publication= mysqli_real_escape_string($conn, $_POST['publication']);
     $publisher = mysqli_real_escape_string($conn, $_POST['publisher']);
-    $authorsSel = mysqli_real_escape_string($conn, $_POST['authorsSel']);
+   // $authorsSel = mysqli_real_escape_string($conn, $_POST['authorsSel']);
+    $authorsSel = $_POST['authorsSel'];
+    $authorsSelArray = explode("|", $authorsSel);
     
 
     echo "[debug] authorsSel = $authorsSel<br>";
@@ -136,11 +138,46 @@
     if($conn->query($sql) === TRUE){
         $book_id = $conn->insert_id;
         echo "<strong>Book created sucessfully!</strong><br>";
+        echo "Book ID:  $book_id<br>";
         echo "ISBN: $isbn<br>";
         echo "Title: $title<br>";
         echo "Publication: $publication<br>";
         echo "Publisher: $publisher<br>";
         echo "Price: $price<br>";
+
+        echo "---------------| <b>Author Details</b> |---------------<br>";
+        for($i = 0; $i < count($authorsSelArray); $i++){
+
+            // make sure item is not empty
+            if(strlen($authorsSelArray[$i]) < 3){
+                continue;
+            }
+                $curAuthorItemArray = explode(";", $authorsSelArray[$i]);
+
+                $curAuthorId = $curAuthorItemArray[0];
+                $curAuthorFirstName = $curAuthorItemArray[1];
+                $curAuthorLastName = $curAuthorItemArray[2];
+
+                //echo "Item:" .strval($i+1)."<br>";
+                echo "Author ID: $curAuthorId<br>";
+                echo "First Name: $curAuthorFirstName<br>";
+                echo "Last Name: $curAuthorLastName<br>";
+
+                //if the author id is empty, do not create row.
+                //ignore and continue looping the rest of the array
+                if(empty($curAuthorId)){
+                    continue;
+                }
+                $sql = "INSERT INTO book_author (book_id, author_id) VALUES ($book_id, $curAuthorId)";
+
+                if($conn->query($sql) === TRUE){
+                    echo "author_id: $curAuthorId added successfully<br>";
+                } else {
+                    echo "Error: " . $sql . "<br>" .  $conn->error;
+                }
+                echo "-----------------------------------<br>";   
+        }
+        
 
     }else{
         echo "Error: Unable to create new book. ".$conn->error."<br>";
@@ -180,8 +217,10 @@
             result="";
             for(i = 0; i < listSel.options.length; i++){
                 optArray = listSel.options[i].innerHTML.split("|");
+                firstName = optArray[2];
+                lastName = optArray[3];
         
-                result += listSel.options[i].value;
+                result += listSel.options[i].value + ";" + firstName + ";" + lastName + "|";
             }
 
             authorsSel.value = result;
