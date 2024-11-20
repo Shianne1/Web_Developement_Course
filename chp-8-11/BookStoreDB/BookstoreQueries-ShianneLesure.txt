@@ -1,0 +1,29 @@
+1. Select all books whose title contains "data" (case insensitive)
+
+SELECT * 
+FROM book 
+WHERE title 
+LIKE '%data%';
+
+
+2. Select all books with authors sorted by authors last names
+
+SELECT a.lastName, a.firstName, b.title
+FROM book b, author a, book_author ab
+WHERE b.book_id = ab.book_id AND a.author_id = ab.author_id
+ORDER BY a.lastName;
+
+
+3. Select all customer orders
+
+SELECT c.customer_id, c.firstName, c.lastName, o.order_id, o.orderDate, bo.quantity, bo.paidEach
+FROM customer c, orders o, book_order bo
+WHERE c.customer_id = o.customer_id AND o.order_id = bo.order_id;
+
+
+4. Select all books with no orders
+
+SELECT b.ISBN, b.title, o.order_id, o.quantity, o.paidEach
+FROM book b 
+LEFT JOIN book_order o on b.book_id = o.book_id 
+WHERE o.order_id IS NULL;
