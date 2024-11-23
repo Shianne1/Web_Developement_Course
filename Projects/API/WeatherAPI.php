@@ -52,32 +52,31 @@
 
             $selectedCity = $_POST['selectedCity'];
 
+
+            $curl = curl_init();
             
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, [
-	        CURLOPT_URL => "https://weatherapi-com.p.rapidapi.com/current.json?q=" . $selectedCity,
-	        CURLOPT_RETURNTRANSFER => true,
-	        CURLOPT_ENCODING => "",
-	        CURLOPT_MAXREDIRS => 10,
-	        CURLOPT_TIMEOUT => 30,
-	        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-	        CURLOPT_CUSTOMREQUEST => "GET",
-	        CURLOPT_HTTPHEADER => [
-		        "x-rapidapi-host: weatherapi-com.p.rapidapi.com",
-		        "x-rapidapi-key: 0576dcb465msh443527aaf349783p182dc4jsn73089664fac7"
-	        ],
-        ]);
-
-        $data = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-	        echo "cURL Error #:" . $err;
-        } 
+            curl_setopt_array($curl, [
+                CURLOPT_URL => "https://weatherapi-com.p.rapidapi.com/current.json?q=53.1%2C-0.13" . $selectedCity,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => [
+                    "x-rapidapi-host: weatherapi-com.p.rapidapi.com",
+                    "x-rapidapi-key: 0576dcb465msh443527aaf349783p182dc4jsn73089664fac7"
+                ],
+            ]);
+            
+            $data = curl_exec($curl);
+            $err = curl_error($curl);
+            
+            curl_close($curl);
+            
+            if ($err) {
+                echo "cURL Error #:" . $err;
+            }       
         else {
 	        //echo $data;
 
@@ -99,8 +98,8 @@
                 echo "<b>Country</b>:" . $data['location']['country'] . "<br>";
                 echo "<b>Region</b>: " . $data['location']['region'] . "<br>";
                 echo "<b>Local Time</b>:" . $data['location']['localtime'] . "<br>";
-                echo "<b>Temperature Celsius</b>: " . $data['location']['temp_c'] . "<br>";
-                echo "<b>Temprature Fahrenheit</b>:" . $data['location']['temp_f'] . "<br>";
+                echo "<b>Temperature Celsius</b>: " . $data['current']['temp_c'] . "<br>";
+                echo "<b>Temprature Fahrenheit</b>:" . $data['current']['temp_f'] . "<br>";
                 ?>
                 <img src="<?php echo $icon;?>">
                 <div class="w3-container">
